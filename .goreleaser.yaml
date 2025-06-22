@@ -5,13 +5,27 @@ before:
     - go mod tidy
 
 builds:
-  - main: ./cmd
+  - id: linux_amd64
+    main: ./cmd
+    goos: [linux]
+    goarch: [amd64]
     env:
       - CGO_ENABLED=1
-    goos:
-      - linux
-    goarch:
-      - amd64
+      - CC=gcc
+  - id: linux_arm64
+    main: ./cmd
+    goos: [linux]
+    goarch: [arm64]
+    env:
+      - CGO_ENABLED=1
+      - CC=aarch64-linux-gnu-gcc
+  - id: windows_amd64
+    main: ./cmd
+    goos: [windows]
+    goarch: [amd64]
+    env:
+      - CGO_ENABLED=1
+      - CC=x86_64-w64-mingw32-gcc
 
 archives:
   - formats: [tar.gz]
